@@ -9,11 +9,11 @@ router.get('/', (req, res, next ) => {
         if(error) { return res.status(500).send ({ error: error}) }
         conn.query(
             'SELECT  * FROM pedidos;',
-            (error, resultado, fields) => {
+            (error, result, fields) => {
                 if(error) { return res.status(500).send ({ error: error}) }
                 const response = {
-                    quantidade: resultado.length,
-                    produtos: resultado.map(prod => {
+                    quantidade: result.length,
+                    pedidos: result.map(prod => {
                         return {
                             id_pedido: pedido.id_pedido,
                             id_produto: pedido.id_produto,

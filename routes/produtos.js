@@ -4,16 +4,16 @@ const mysql = require('../mysql').pool;
 
 // RETORNA TODOS OS PRODUTOS 
 router.get('/', (req, res, next ) => {
-
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send ({ error: error}) }
         conn.query(
             'SELECT  * FROM produtos;',
-            (error, resultado, fields) => {
+            (error, result, fields) => {
+                conn.release();
                 if(error) { return res.status(500).send ({ error: error}) }
                 const response = {
-                    quantidade: resultado.length,
-                    produtos: resultado.map(prod => {
+                    quantidade: result.length,
+                    produtos: result.map(prod => {
                         return {
                             id_produto: prod.id_produto,
                             nome: prod.nome,
@@ -21,7 +21,7 @@ router.get('/', (req, res, next ) => {
                             request: {
                                 tipo: 'GET',
                                 descricao: ' Retorna os detalhes de um produto especifico ',
-                                url: 'http://' + prod.id_produto 
+                                url: 'http://http://apptesteapi.herokuapp.com/produtos' 
                             }
                         }
                     })
@@ -52,7 +52,7 @@ router.post('/', (req, res, next) => {
                         request: {
                             tipo: 'GET',
                             descricao: ' Retorna todos os produtos ',
-                            url: 'http://'
+                            url: 'http://http://apptesteapi.herokuapp.com/produtos'
                         }
                     }
                 }
@@ -87,7 +87,7 @@ router.get('/:id_produto', (req, res, next) => {
                         request: {
                             tipo: 'GET',
                             descricao: ' Retorna todos os produtos ',
-                            url: 'http://'
+                            url: 'http://http://apptesteapi.herokuapp.com/produtos' + prod.id_produto
                         }
                     }
                 }
